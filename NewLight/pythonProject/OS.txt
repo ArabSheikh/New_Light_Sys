@@ -1,0 +1,712 @@
+import pygame as pg
+from datetime import datetime
+pg.init()
+
+window = pg.display.set_mode((0, 0), pg.RESIZABLE)
+W, h = window.get_size()
+H = h - 20
+print(W, " ", H)
+red, green, blue, white = (190, 0, 0), (0, 190, 0), (0, 0, 190), (230, 230, 230)
+black, grey, dark_grey, light_grey = (0, 0, 0), (100, 100, 100), (50, 50, 50), (150, 150, 150)
+
+font = pg.font.SysFont('microsofttaile', 72)
+mid_font = pg.font.SysFont('microsofttaile', 20)
+main_font = pg.font.SysFont('microsofttaile', 20)
+wallpaper = pg.transform.scale(pg.image.load('wallpaper2.jpg'), (W, H))
+main_menu_table = main_font.render('NL', 2, white, black)
+clock = pg.time.Clock()
+FPS = 120
+Working_apps_set = set()
+paint_table = main_font.render('Paint 2.6', 2, white, black)
+word_table = main_font.render('Text R beta', 2, white, black)
+calculator_table = main_font.render('Calculator beta', 2, white, black)
+Sys_Down_table = main_font.render('Sytem', 2, white, black)
+Sys_Down_logo = pg.transform.scale(pg.image.load('Sys_Down_icon.png'), (50, 50))
+paint_logo = pg.transform.scale(pg.image.load('paint_icon.png'), (50, 50))
+word_logo = pg.transform.scale(pg.image.load('word_icon.png'), (50, 50))
+calculator_logo = pg.transform.scale(pg.image.load('calculator_icon.png'), (50, 50))
+
+pg.display.set_caption('"New light" OS')
+Paint_working_check = 'False'
+Text_R_working_check = 'false'
+
+def OS_FUNCTION_Sys_Starting():
+    open_color, window_color, z = (230, 230, 230), black, 0
+    for a in range(230):
+        present_table = font.render("JACKEY PRESENTS", 2, open_color, window_color)
+        vers = mid_font.render('New Light OS beta', 2, open_color, window_color)
+        window.fill(window_color)
+        pg.draw.rect(window, dark_grey, (W/2 - 230, H - 300, 460, 20))
+        pg.draw.rect(window, white, (W/2 - 227, H - 297, (z * 4.54), 14))
+        window.blit(vers, (W - 240, H - 30))
+        window.blit(present_table, (W/2 - 300, 500))
+        window_color = ((0 + a), (0 + a), (0 + a))
+        open_color = ((230 - a), (230 - a), (230 - a))
+        pg.time.delay(23)
+        pg.display.update()
+        if a >= 129:
+            z += 1
+    pg.time.delay(1000)
+    OS_FUNCTION_work_space()
+
+
+def APPS_FUNCTION_opening(enter_text, app):
+    pg.draw.rect(window, dark_grey, (W // 2 - 205, H // 2 - 105, 410, 210))
+    pg.draw.rect(window, white, (W // 2 - 200, H // 2 - 100, 400, 200))
+    window.blit(main_font.render(enter_text, 2, black, white), (W // 2 - 195, H // 2 - 95))
+    pg.display.update()
+    pg.time.delay(2500)
+    if app == 'Paint':
+        Working_apps_set.add('Paint 2.6')
+        Paint_working_check = 'True'
+        MENU_FUNCTION_Paint()
+    if app == 'Text R':
+        Working_apps_set.add('Text R')
+        Text_R_working_check = 'True'
+        MENU_FUNCTION_Text_R()
+    if app == 'Calculator':
+        MENU_FUNCTION_Calculator()
+
+
+def APPS_FUNCTION_end(exit_text, app):
+    exit_table = main_font.render(exit_text, 2, black, white)
+    pg.draw.rect(window, dark_grey, (W // 2 - 205, H // 2 - 105, 410, 210))
+    pg.draw.rect(window, white, (W // 2 - 200, H // 2 - 100, 400, 200))
+    window.blit(exit_table, (W // 2 - 195, H // 2 - 95))
+    pg.display.update()
+    pg.time.delay(2500)
+    if app == 'Paint':
+        Working_apps_set.discard('Paint 2.6')
+        Paint_working_check = 'False'
+        OS_FUNCTION_work_space()
+    if app == 'Text R':
+        Working_apps_set.discard('Text R')
+        Text_R_working_check = 'false'
+        OS_FUNCTION_work_space()
+    if app == 'Calculator':
+        OS_FUNCTION_work_space()
+
+
+def MENU_FUNCTION_Paint():
+    global red, green, blue, white, black, grey, dark_grey, light_grey, W, H
+    pg.draw.rect(window, dark_grey, (W//2 - 205, H//2 - 105, 410, 210))
+    pg.draw.rect(window, white, (W//2 - 200, H//2 - 100, 400, 200))
+    window.blit(main_font.render('Paint 2.6 loading...', 2, black, white), (W//2 - 195, H//2 - 95))
+    pg.display.update()
+    pg.time.delay(2500)
+
+    yellow = (230, 230, 0)
+    pink = (230, 70, 150)
+    light_purple = (170, 0, 170)
+    purple = (120, 0, 120)
+    orange = (230, 110, 0)
+    brown = (185, 70, 0)
+    color = black
+    window_color = white
+    size = 10
+    col = 'black'
+    paint_window = window
+    mini_font = pg.font.SysFont('microsofttaile', 12)
+
+    pg.display.set_caption('Paint 2.6')
+    paint_window.fill(window_color)
+    while 1:
+        time = str(datetime.now().isoformat())
+        main_time = (time[0] + time[1] + time[2] + time[3] + '.' + time[5] + time[6] + '.' + time[8] + time[9] +
+                     '  ' + time[11] + time[12] + ':' + time[14] + time[15])
+        time_table = main_font.render(main_time, 2, white, dark_grey)
+        draw_size_table = mini_font.render('draw size : ' + str(size), 1, dark_grey, light_grey)
+        color_table = mini_font.render('color : ' + col, 1, dark_grey, light_grey)
+        pressed = pg.mouse.get_pressed()
+        x, y = pg.mouse.get_pos()
+        pg.draw.rect(paint_window, (170, 170, 170), (0, 0, W, 100))
+        pg.draw.rect(paint_window, (190, 190, 190), (0, 100, 100, H))
+        pg.draw.rect(window, dark_grey, (0, 1000, 1920, 40))
+        pg.draw.rect(window, black, (7, 1007, 36, 26))
+        window.blit(main_menu_table, (10, 1007))
+        window.blit(time_table, (1750, 1010))
+        for i in range (len(Working_apps_set)):
+            if 'Paint 2.6' in Working_apps_set:
+                window.blit(paint_logo, (50 + (i * 50), 990))
+            if 'Text R' in Working_apps_set:
+                window.blit(word_logo, (50 + (i * 50), 995))
+        pg.draw.line(paint_window, dark_grey, (230, 50), (270, 50), 5)
+        pg.draw.line(paint_window, dark_grey, (250, 30), (250, 70), 5)
+        pg.draw.line(paint_window, dark_grey, (330, 50), (370, 50), 5)
+        pg.draw.rect(paint_window, red, (400, 20, 30, 30))
+        pg.draw.rect(paint_window, orange, (435, 20, 30, 30))
+        pg.draw.rect(paint_window, yellow, (470, 20, 30, 30))
+        pg.draw.rect(paint_window, green, (505, 20, 30, 30))
+        pg.draw.rect(paint_window, blue, (540, 20, 30, 30))
+        pg.draw.rect(paint_window, pink, (400, 55, 30, 30))
+        pg.draw.rect(paint_window, light_purple, (435, 55, 30, 30))
+        pg.draw.rect(paint_window, purple, (470, 55, 30, 30))
+        pg.draw.rect(paint_window, black, (505, 55, 30, 30))
+        pg.draw.rect(paint_window, brown, (540, 55, 30, 30))
+        paint_window.blit(draw_size_table, (220, 2))
+        paint_window.blit(color_table, (400, 2))
+        for e in range(0, 25, 1):
+            pg.draw.line(paint_window, grey, (89, 100 + 37 * e), (100, 100 + 37 * e), 2 + 1 // 2)
+        for u in range(0, 45, 1):
+            pg.draw.line(paint_window, grey, (100 + 37 * u, 89), (100 + 37 * u, 100), 2 + 1 // 2)
+        for i in pg.event.get():
+            if i.type == pg.KEYDOWN:
+                if i.key == pg.K_ESCAPE:
+                    APPS_FUNCTION_end('Exiting from Paint...', 'Paint')
+                if i.key == pg.K_1:
+                    color = black
+                    col = 'black'
+                if i.key == pg.K_2:
+                    color = green
+                    col = 'green'
+                if i.key == pg.K_3:
+                    color = red
+                    col = 'red'
+                if i.key == pg.K_4:
+                    color = yellow
+                    col = 'yellow'
+                if i.key == pg.K_5:
+                    color = blue
+                    col = 'blue'
+                if i.key == pg.K_6:
+                    color = pink
+                    col = 'pink'
+                if i.key == pg.K_7:
+                    color = light_purple
+                    col = 'light-purple'
+                if i.key == pg.K_8:
+                    color = purple
+                    col = 'purple'
+                if i.key == pg.K_9:
+                    color = orange
+                    col = 'orange'
+                if i.key == pg.K_0:
+                    color = brown
+                    col = 'brown'
+                if i.key == pg.K_SPACE:
+                    window_color = (230, 230, 230)
+                    pg.draw.rect(paint_window, window_color, (100, 100, W, H))
+                if i.key == pg.K_q:
+                    window_color = black
+                    pg.draw.rect(paint_window, window_color, (100, 100, W, H))
+                if i.key == pg.K_w:
+                    window_color = green
+                    pg.draw.rect(paint_window, window_color, (100, 100, W, H))
+                if i.key == pg.K_e:
+                    window_color = red
+                    pg.draw.rect(paint_window, window_color, (100, 100, W, H))
+                if i.key == pg.K_r:
+                    window_color = yellow
+                    pg.draw.rect(paint_window, window_color, (100, 100, W, H))
+                if i.key == pg.K_t:
+                    window_color = blue
+                    pg.draw.rect(paint_window, window_color, (100, 100, W, H))
+                if i.key == pg.K_y:
+                    window_color = pink
+                    pg.draw.rect(paint_window, window_color, (100, 100, W, H))
+                if i.key == pg.K_u:
+                    window_color = light_purple
+                    pg.draw.rect(paint_window, window_color, (100, 100, W, H))
+                if i.key == pg.K_i:
+                    window_color = purple
+                    pg.draw.rect(paint_window, window_color, (100, 100, W, H))
+                if i.key == pg.K_o:
+                    window_color = orange
+                    pg.draw.rect(paint_window, window_color, (100, 100, W, H))
+                if i.key == pg.K_p:
+                    window_color = brown
+                    pg.draw.rect(paint_window, window_color, (100, 100, W, H))
+
+        if pressed[0]:
+            if x > 100 and y > 100:
+                pg.draw.circle(paint_window, color, (x, y), size // 2)
+            if 400 < x < 430 and 10 < y < 40:
+                color = red
+                col = 'red'
+            if 435 < x < 465 and 10 < y < 40:
+                color = orange
+                col = 'orange'
+            if 470 < x < 500 and 10 < y < 40:
+                color = yellow
+                col = 'yellow'
+            if 505 < x < 535 and 10 < y < 40:
+                color = green
+                col = 'green'
+            if 540 < x < 570 and 10 < y < 40:
+                color = blue
+                col = 'blue'
+            if 400 < x < 430 and 45 < y < 75:
+                color = pink
+                col = 'pink'
+            if 435 < x < 465 and 45 < y < 75:
+                color = light_purple
+                col = 'light-purple'
+            if 470 < x < 500 and 45 < y < 75:
+                color = purple
+                col = 'purple'
+            if 505 < x < 535 and 45 < y < 75:
+                color = black
+                col = 'black'
+            if 540 < x < 570 and 45 < y < 75:
+                color = brown
+                col = 'brown'
+
+        if 220 < x < 280 and 20 < y < 80:
+            pg.draw.rect(paint_window, (90, 90, 220), (220, 20, 60, 60))
+            pg.draw.line(paint_window, dark_grey, (230, 50), (270, 50), 5)
+            pg.draw.line(paint_window, dark_grey, (250, 30), (250, 70), 5)
+            if size < 20 and pressed[0]:
+                size += 1
+                pg.time.delay(100)
+        if 320 < x < 380 and 20 < y < 80:
+            pg.draw.rect(paint_window, (90, 90, 220), (320, 20, 60, 60))
+            pg.draw.line(paint_window, dark_grey, (330, 50), (370, 50), 5)
+            if size > 2 and pressed[0]:
+                size -= 1
+                pg.time.delay(100)
+
+        if pressed[1]:
+            pg.draw.rect(paint_window, color, (x - size // 2, y - size // 2, size, size))
+        if pressed[2]:
+            pg.draw.rect(paint_window, window_color, (x - 20 // 2, y - 20 // 2, 20, 20))
+
+        pg.display.update()
+        pg.time.delay(1)
+
+
+def MENU_FUNCTION_Calculator():
+    x, y = W // 2 - 500, H // 2 - 300
+    global Num_1, Num_2, Answer, Function
+    Num_1 = ''
+    Num_2 = ''
+    Answer = 0
+    Function = 0
+    pg.draw.rect(window, white, (x, y, 1000, 600))
+    pg.draw.rect(window, dark_grey, (x + 10, y + 10, 200, 40), 3)
+    pg.draw.rect(window, dark_grey, (x + 270, y + 10, 200, 40), 3)
+    pg.draw.rect(window, dark_grey, (x + 220, y + 10, 40, 40), 3)
+
+    def NUM_1():
+        Num_1 = ''
+        pg.draw.rect(window, dark_grey, (x + 10, y + 10, 200, 40), 3)
+        pg.draw.rect(window, dark_grey, (x + 270, y + 10, 200, 40), 3)
+        pg.draw.rect(window, dark_grey, (x + 220, y + 10, 40, 40), 3)
+        while 1:
+            for i in pg.event.get():
+                if i.type == pg.KEYDOWN:
+                    if i.key == pg.K_1:
+                        Num_1 = Num_1 + '1'
+                    if i.key == pg.K_2:
+                        Num_1 = Num_1 + '2'
+                    if i.key == pg.K_3:
+                        Num_1 = Num_1 + '3'
+                    if i.key == pg.K_4:
+                        Num_1 = Num_1 + '4'
+                    if i.key == pg.K_5:
+                        Num_1 = Num_1 + '5'
+                    if i.key == pg.K_6:
+                        Num_1 = Num_1 + '6'
+                    if i.key == pg.K_7:
+                        Num_1 = Num_1 + '7'
+                    if i.key == pg.K_8:
+                        Num_1 = Num_1 + '8'
+                    if i.key == pg.K_9:
+                        Num_1 = Num_1 + '9'
+                    if i.key == pg.K_0:
+                        Num_1 = Num_1 + '0'
+                    if i.key == pg.K_BACKSPACE:
+                        Num_1 = Num_1[0: -1]
+                    if i.key == pg.K_ESCAPE:
+                        main_title(Num_1, Num_2, Function)
+            Num_1_table = main_font.render(Num_1, 2, black, white)
+            window.blit(Num_1_table, (x + 13, y + 13))
+            pg.display.update()
+
+    def NUM_2():
+        Num_2 = ''
+        while 1:
+            pg.draw.rect(window, dark_grey, (x + 10, y + 10, 200, 40), 3)
+            pg.draw.rect(window, dark_grey, (x + 220, y + 10, 40, 40), 3)
+            pg.draw.rect(window, dark_grey, (x + 270, y + 10, 200, 40), 3)
+            for i in pg.event.get():
+                if i.type == pg.KEYDOWN:
+                    if i.key == pg.K_1:
+                        Num_2 = Num_2 + '1'
+                    if i.key == pg.K_2:
+                        Num_2 = Num_2 + '2'
+                    if i.key == pg.K_3:
+                        Num_2 = Num_2 + '3'
+                    if i.key == pg.K_4:
+                        Num_2 = Num_2 + '4'
+                    if i.key == pg.K_5:
+                        Num_2 = Num_2 + '5'
+                    if i.key == pg.K_6:
+                        Num_2 = Num_2 + '6'
+                    if i.key == pg.K_7:
+                        Num_2 = Num_2 + '7'
+                    if i.key == pg.K_8:
+                        Num_2 = Num_2 + '8'
+                    if i.key == pg.K_9:
+                        Num_2 = Num_2 + '9'
+                    if i.key == pg.K_0:
+                        Num_2 = Num_2 + '0'
+                    if i.key == pg.K_BACKSPACE:
+                        Num_2 = Num_2[0: -1]
+                    if i.key == pg.K_ESCAPE:
+                        main_title(Num_1, Num_2, Function)
+            Num_2_table = main_font.render(Num_2, 2, black, white)
+            window.blit(Num_2_table, (x + 275, y + 15))
+            pg.display.update()
+
+    def function():
+        Function = ''
+        plus = pg.transform.scale(pg.image.load('plus.png'), (30, 30))
+        minus = pg.transform.scale(pg.image.load('minus.png'), (30, 30))
+        xx = pg.transform.scale(pg.image.load('x.png'), (30, 30))
+        devision = pg.transform.scale(pg.image.load('devision.png'), (30, 30))
+        while 1:
+            window.blit(plus, (x + 225, y + 40))
+            window.blit(minus, (x + 225, y + 70))
+            window.blit(xx, (x + 225, y + 100))
+            window.blit(devision, (x + 225, y + 130))
+            z, v = pg.mouse.get_pos()
+            press = pg.mouse.get_pressed()
+            if press[0]:
+                if x + 225 < z < x + 255 and y + 50 < v < y + 80:
+                    Function = 'plus'
+                    window.blit(plus, (x + 225, y + 15))
+                if x + 225 < z < x + 255 and y + 80 < v < y + 110:
+                    Function = 'minus'
+                    window.blit(minus, (x + 225, y + 15))
+                if x + 225 < z < x + 255 and y + 110 < v < y + 140:
+                    Function = 'x'
+                    window.blit(xx, (x + 225, y + 15))
+                if x + 225 < z < x + 255 and y + 140 < v < y + 170 and Num_2 != 0:
+                    Function = 'devision'
+                    window.blit(devision, (x + 225, y + 15))
+            for i in pg.event.get():
+                if i.type == pg.KEYDOWN:
+                    if i.key == pg.K_ESCAPE:
+                        main_title(Num_1, Num_2, Function)
+
+            pg.display.update()
+
+
+    def main_title(Num_1, Num_2, Function):
+        pg.draw.rect(window, white, (x, y, 1000, 600))
+        pg.draw.rect(window, dark_grey, (x + 10, y + 10, 200, 40), 3)
+        pg.draw.rect(window, dark_grey, (x + 270, y + 10, 200, 40), 3)
+        pg.draw.rect(window, dark_grey, (x + 220, y + 10, 40, 40), 3)
+        plus = pg.transform.scale(pg.image.load('plus.png'), (30, 30))
+        minus = pg.transform.scale(pg.image.load('minus.png'), (30, 30))
+        xx = pg.transform.scale(pg.image.load('x.png'), (30, 30))
+        devision = pg.transform.scale(pg.image.load('devision.png'), (30, 30))
+        Num1_table = main_font.render(Num_1, 2, black, white)
+        Num2_table = main_font.render(Num_2, 2, black, white)
+        while 1:
+            time = str(datetime.now().isoformat())
+            main_time = (time[0] + time[1] + time[2] + time[3] + '.' + time[5] + time[6] + '.' + time[8] + time[9] +
+                         '  ' + time[11] + time[12] + ':' + time[14] + time[15])
+            time_table = main_font.render(main_time, 2, white, dark_grey)
+            window.blit(time_table, (1750, 1010))
+            window.blit(Num1_table, (x + 15, y + 15))
+            window.blit(Num2_table, (x + 275, y + 15))
+            if Function == 'plus':
+                window.blit(plus, (x + 225, y + 15))
+            if Function == 'minus':
+                window.blit(minus, (x + 225, y + 15))
+            if Function == 'xx':
+                window.blit(x, (x + 225, y + 15))
+            if Function == 'devision':
+                window.blit(devision, (x + 225, y + 15))
+            z, v = pg.mouse.get_pos()
+            press = pg.mouse.get_pressed()
+            for i in pg.event.get():
+                if i.type == pg.KEYDOWN:
+                    if i.key == pg.K_ESCAPE:
+                        APPS_FUNCTION_end('Exiting from Calculator...')
+                    if i.key == pg.K_KP_ENTER:
+                        Num_1 = int(Num_1)
+                        Num_2 = int(Num_2)
+                        if Function == 'plus':
+                            Answer = Num_1 + Num_2
+                            Answer_table = main_font.render(str(Answer), 2, black, white)
+                            window.blit(Answer_table, (x + 10, y + 50))
+                        if Function == 'minus':
+                            Answer = Num_1 - Num_2
+                            Answer_table = main_font.render(str(Answer), 2, black, white)
+                            window.blit(Answer_table, (x + 10, y + 50))
+                        if Function == 'x':
+                            Answer = Num_1 * Num_2
+                            Answer_table = main_font.render(str(Answer), 2, black, white)
+                            window.blit(Answer_table, (x + 10, y + 50))
+                        if Function == 'devision':
+                            Answer = Num_1 / Num_2
+                            Answer_table = main_font.render(str(Answer), 2, black, white)
+                            window.blit(Answer_table, (x + 10, y + 50))
+
+            if press[0]:
+                if x + 10 < z < x + 210 and y + 10 < v < y + 40:
+                    NUM_1()
+                if x + 220 < z < x + 260 and y + 10 < v < y + 40:
+                    function()
+                if x + 270 < z < x + 470 and y + 10 < v < y + 40:
+                    NUM_2()
+
+            pg.display.update()
+
+    main_title(Num_1, Num_2, Function)
+
+
+def MENU_FUNCTION_Text_R():
+    x, y = W // 2 - 350, H // 2 - 200
+    message = ' '
+    len_num = 1
+    window.blit(wallpaper, (0, 0))
+    pg.draw.rect(window, dark_grey, (0, H - 40, W, 40))
+    pg.draw.rect(window, black, (7, H - 33, 36, 26))
+    window.blit(main_menu_table, (10, H - 33))
+    pg.draw.rect(window, white, (x, y, 700, 400))
+    pg.draw.rect(window, grey, (x, y, 700, 40))
+    pg.draw.rect(window, light_grey, (x, y + 40, 40, 360))
+    while 1:
+        time = str(datetime.now().isoformat())
+        main_time = (time[0] + time[1] + time[2] + time[3] + '.' + time[5] + time[6] + '.' + time[8] + time[9] +
+                     '  ' + time[11] + time[12] + ':' + time[14] + time[15])
+        time_table = main_font.render(main_time, 2, white, dark_grey)
+        window.blit(time_table, (W - 170, H - 30))
+        for i in range (len(Working_apps_set)):
+            if 'Paint 2.6' in Working_apps_set:
+                window.blit(paint_logo, (50 + (i * 50), H - 50))
+            if 'Text R' in Working_apps_set:
+                window.blit(word_logo, (50 + (i * 50), H - 45))
+        for i in pg.event.get():
+            if i.type == pg.KEYDOWN:
+                if i.key == pg.K_ESCAPE:
+                    APPS_FUNCTION_end('Exiting from Text R...', 'Text R')
+                if i.key == pg.K_q:
+                    message = message + 'q'
+                if i.key == pg.K_w:
+                    message = message + 'w'
+                if i.key == pg.K_e:
+                    message = message + 'e'
+                if i.key == pg.K_r:
+                    message = message + 'r'
+                if i.key == pg.K_t:
+                    message = message + 't'
+                if i.key == pg.K_y:
+                    message = message + 'y'
+                if i.key == pg.K_u:
+                    message = message + 'u'
+                if i.key == pg.K_i:
+                    message = message + 'i'
+                if i.key == pg.K_o:
+                    message = message + 'o'
+                if i.key == pg.K_p:
+                    message = message + 'p'
+                if i.key == pg.K_a:
+                    message = message + 'a'
+                if i.key == pg.K_s:
+                    message = message + 's'
+                if i.key == pg.K_d:
+                    message = message + 'd'
+                if i.key == pg.K_f:
+                    message = message + 'f'
+                if i.key == pg.K_g:
+                    message = message + 'g'
+                if i.key == pg.K_h:
+                    message = message + 'h'
+                if i.key == pg.K_j:
+                    message = message + 'j'
+                if i.key == pg.K_k:
+                    message = message + 'k'
+                if i.key == pg.K_l:
+                    message = message + 'l'
+                if i.key == pg.K_z:
+                    message = message + 'z'
+                if i.key == pg.K_x:
+                    message = message + 'x'
+                if i.key == pg.K_c:
+                    message = message + 'c'
+                if i.key == pg.K_v:
+                    message = message + 'v'
+                if i.key == pg.K_b:
+                    message = message + 'b'
+                if i.key == pg.K_n:
+                    message = message + 'n'
+                if i.key == pg.K_m:
+                    message = message + 'm'
+                if i.key == pg.K_SPACE:
+                    message = message + ' '
+                if i.key == pg.K_1:
+                    message = message + '1'
+                if i.key == pg.K_2:
+                    message = message + '2'
+                if i.key == pg.K_3:
+                    message = message + '3'
+                if i.key == pg.K_4:
+                    message = message + '4'
+                if i.key == pg.K_5:
+                    message = message + '5'
+                if i.key == pg.K_6:
+                    message = message + '6'
+                if i.key == pg.K_7:
+                    message = message + '7'
+                if i.key == pg.K_8:
+                    message = message + '8'
+                if i.key == pg.K_9:
+                    message = message + '9'
+                if i.key == pg.K_0:
+                    message = message + '0'
+                if i.key == pg.K_COMMA:
+                    message = message + ','
+                if i.key == pg.K_PERIOD:
+                    message = message + '.'
+                if int(len(message) % 95) == 1:
+                    len_num += 1
+                if i.key == pg.K_BACKSPACE:
+                    if len(message) > 1:
+                        if int(len(message) % 95) == 0:
+                            len_num -= 1
+                            print('dd')
+                        message = message[0: -1]
+                        pg.draw.rect(window, white, (x + 40, (y + 20) + 25 * len_num, 660, 25))
+                    else:
+                        MENU_FUNCTION_Text_R()
+        text = main_font.render((message[(95*(len_num-1)): (95*len_num)]), 2, black, white)
+        window.blit(text, ((x + 50), (y + 20) + 26 * len_num))
+        window.blit(time_table, (W - 170, H - 30))
+
+        pg.display.update()
+
+
+def OS_FUNCTION_Sys_Down():
+    window.blit(wallpaper, (0, 0))
+    pg.draw.rect(window, dark_grey, (0, H - 40, W, 40))
+    pg.draw.rect(window, black, (7, H - 33, 36, 26))
+    window.blit(main_menu_table, (10, H - 33))
+    pg.draw.rect(window, black, (W // 2 - 300, H // 2 - 100, 600, 200))
+    for i in range(4):
+        pg.draw.rect(window, dark_grey, (W // 2 - 290, (H // 2 - 90) + 40 * i, 580, 30))
+        if i == 0:
+            Sys_Down_table = main_font.render('Shutdown', 2, white, dark_grey)
+            window.blit(Sys_Down_table, (W // 2 - 45, (H // 2 - 89) + 40 * i))
+        if i == 1:
+            Sys_Down_table = main_font.render('Reload', 2, white, dark_grey)
+            window.blit(Sys_Down_table, (W // 2 - 33, (H // 2 - 89) + 40 * i))
+        if i == 2:
+            Sys_Down_table = main_font.render('Back to Desktop', 2, white, dark_grey)
+            window.blit(Sys_Down_table, (W // 2 - 75, (H // 2 - 89) + 40 * i))
+        if i == 3:
+            Sys_Down_table = main_font.render('Credits', 2, white, dark_grey)
+            window.blit(Sys_Down_table, (W // 2 - 33, (H // 2 - 89) + 40 * i))
+    while 1:
+        time = str(datetime.now().isoformat())
+        main_time = (time[0] + time[1] + time[2] + time[3] + '.' + time[5] + time[6] + '.' + time[8] + time[9] +
+                     '  ' + time[11] + time[12] + ':' + time[14] + time[15])
+        time_table = main_font.render(main_time, 2, white, dark_grey)
+        window.blit(time_table, (W - 170, H - 30))
+
+        x, y = pg.mouse.get_pos()
+        mouse_press = pg.mouse.get_pressed()
+        if mouse_press[0]:
+            if W // 2 - 290 < x < W // 2 + 290 and H // 2 - 90 < y < H // 2 - 60:
+                print('Shutdown')
+                window.blit(wallpaper, (0, 0))
+                pg.draw.rect(window, dark_grey, (0, H - 40, W, 40))
+                pg.draw.rect(window, black, (7, H - 33, 36, 26))
+                window.blit(main_menu_table, (10, H - 33))
+                pg.time.delay(2500)
+                pg.quit()
+                exit()
+            if W // 2 - 290 < x < W // 2 + 290 and H // 2 - 50 < y < H // 2 - 20:
+                print('Reload')
+                OS_FUNCTION_Sys_Starting()
+            if W // 2 - 290 < x < W // 2 + 290 and H // 2 - 10 < y < H // 2 + 20:
+                print('Back to menu')
+                OS_FUNCTION_work_space()
+
+
+        pg.display.update()
+        clock.tick(FPS)
+
+
+def OS_FUNCTION_menu(time_table):
+    window.blit(wallpaper, (0, 0))
+    pg.draw.rect(window, dark_grey, (0, H - 40, W, 40))
+    pg.draw.rect(window, black, (7, H - 33, 36, 26))
+    window.blit(main_menu_table, (10, H - 33))
+    pg.draw.rect(window, black, (10, H - 280, 200, 230))
+    window.blit(paint_logo, (13, H - 215))
+    window.blit(paint_table, (73, H - 205))
+    window.blit(word_logo, (17, H - 160))
+    window.blit(word_table, (73, H - 140))
+    window.blit(calculator_logo, (14, H - 265))
+    window.blit(calculator_table, (73, H - 250))
+    window.blit(Sys_Down_logo, (14, H - 105))
+    window.blit(Sys_Down_table, (73, H - 90))
+    while 1:
+        time = str(datetime.now().isoformat())
+        main_time = (time[0] + time[1] + time[2] + time[3] + '.' + time[5] + time[6] + '.' + time[8] + time[9] +
+                     '  ' + time[11] + time[12] + ':' + time[14] + time[15])
+        time_table = main_font.render(main_time, 2, white, dark_grey)
+        window.blit(time_table, (W - 170, H - 30))
+        x, y = pg.mouse.get_pos()
+        mouse_press = pg.mouse.get_pressed()
+        for i in pg.event.get():
+            if i.type == pg.QUIT:
+                pg.quit()
+                exit()
+            if i.type == pg.KEYDOWN:
+                if i.key == pg.K_ESCAPE:
+                    OS_FUNCTION_work_space()
+        if mouse_press[0]:
+            if x < 10 and y < H - 40 or 10 < x < 210 and y < H - 260 or x > 210 and y < H - 40:
+                OS_FUNCTION_work_space()
+            if 13 < x < 63 and H - 205 < y < H - 155:
+                APPS_FUNCTION_opening('Welcome to Paint', 'Paint')
+            if 17 < x < 67 and H - 150 < y < H - 100:
+                APPS_FUNCTION_opening('Welcome to Text R', 'Text R')
+#            if 14 < x < 64 and 785 < y < 835:
+#                APPS_FUNCTION_opening('Calculator opening', 'Calculator')
+            if 17 < x < 67 and H - 105 < y < H - 115:
+                OS_FUNCTION_Sys_Down()
+        pg.display.update()
+        clock.tick(FPS)
+
+
+def OS_FUNCTION_work_space():
+    window.blit(wallpaper, (0, 0))
+    pg.draw.rect(window, dark_grey, (0, H - 40, W, 40))
+    pg.draw.rect(window, black, (7, H - 33, 36, 26))
+    window.blit(main_menu_table, (10, H - 33))
+    for i in range (len(Working_apps_set)):
+        if 'Paint 2.6' in Working_apps_set and Paint_working_check == 'False':
+            Paint_working_check = 'True'
+            window.blit(paint_logo, (50 + (i * 50), H - 50))
+        if 'Text R' in Working_apps_set and Text_R_working_check == 'False':
+            Text_R_working_check = 'True'
+            window.blit(word_logo, (50 + (i * 50), H - 45))
+
+    while 1:
+        time = str(datetime.now().isoformat())
+        main_time = (time[0] + time[1] + time[2] + time[3] + '.' + time[5] + time[6] + '.' + time[8] + time[9] +
+            '  '+ time[11] + time[12] + ':' + time[14] + time[15])
+        time_table = main_font.render(main_time, 2, white, dark_grey)
+        window.blit(time_table, (W - 170, H - 30))
+        x, y = pg.mouse.get_pos()
+        mouse_press = pg.mouse.get_pressed()
+        for i in pg.event.get():
+            if i.type == pg.KEYDOWN:
+                if i.key == pg.K_ESCAPE:
+                    pg.quit()
+                    exit()
+        if mouse_press[0]:
+            if 7 < x < 69 and H - 37 < y < H - 7:
+                OS_FUNCTION_menu(time_table)
+
+        pg.display.update()
+        clock.tick(FPS)
+
+
+OS_FUNCTION_Sys_Starting()
