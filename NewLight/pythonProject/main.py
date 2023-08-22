@@ -92,7 +92,7 @@ def OS_FUNCTION_Sys_Starting():
         pg.draw.rect(window, gray_50, (W/2 - 230, H - 300, 460, 20))
         pg.draw.rect(window, white, (W/2 - 227, H - 297, (z * 4.54), 14))
         window.blit(vers, (W - 240, H - 30))
-        window.blit(present_table, (W/2 - 300, 500))
+        window.blit(present_table, (W/2 - 300, H/2 - 36))
         window_color = ((0 + a), (0 + a), (0 + a))
         open_color = ((230 - a), (230 - a), (230 - a))
         pg.time.delay(23)
